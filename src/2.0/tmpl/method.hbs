@@ -1,0 +1,98 @@
+## {{&summary}}
+
+{{&description}}
+### Path
+{{&method}} {{&path}}
+{{#if isSecure}}#### Protected. Auth needed{{/if}}
+### Tags
+{{#each tags}}
+    - {{this}}
+{{/each}}
+### Parameters
+
+{{#ifHas parameters "in" "query"}}
+    #### Query parameters
+
+    | Name | Type | Example Value | Notes | Description |
+    | ---- | ---- | ------------- | -------- | ----------- |
+    {{#if parameters.length}}
+        {{#parameters}}
+            {{#ifCond in "query"}}
+                | {{&name}} | {{&type}} | {{&default}} | {{#if
+                        required}} [required] {{else}} [optional] {{/if}} | {{&description}} |
+            {{/ifCond}}
+        {{/parameters}}
+    {{/if}}
+{{/ifHas}}
+
+{{#ifHas parameters "in" "path"}}
+    #### Path parameters
+
+    | Name | Type | Example Value | Required | Description |
+    | ---- | ---- | ------------- | -------- | ----------- |
+    {{#if parameters.length}}
+        {{#parameters}}
+            {{#ifCond in "query"}}
+                | {{&name}} | {{&type}} | {{&default}} | {{#if
+                        required}} true {{else}} false {{/if}} | {{&description}} |
+            {{/ifCond}}
+        {{/parameters}}
+    {{/if}}
+{{/ifHas}}
+{{#ifHas parameters "in" "body"}}
+    #### Body parameters
+
+    | Name | Type | Example Value | Required | Description |
+    | ---- | ---- | ------------- | -------- | ----------- |
+    {{#if parameters.length}}
+        {{#parameters}}
+            {{#ifCond in "query"}}
+                | {{&name}} | {{&type}} | {{&default}} | {{#if
+                        required}} true {{else}} false {{/if}} | {{&description}} |
+            {{/ifCond}}
+        {{/parameters}}
+    {{/if}}
+{{/ifHas}}
+{{#ifHas parameters "in" "formData"}}
+    #### Body parameters
+
+    | Name | Type | Example Value | Required | Description |
+    | ---- | ---- | ------------- | -------- | ----------- |
+    {{#if parameters.length}}
+        {{#parameters}}
+            {{#ifCond in "formData"}}
+                | {{&name}} | {{&type}} | {{&default}} | {{#if
+                        required}} true {{else}} false {{/if}} | {{&description}} |
+            {{/ifCond}}
+        {{/parameters}}
+    {{/if}}
+{{/ifHas}}
+{{#ifLength headers}}
+    #### Headers
+
+    | Header name |
+    | ----------- |
+    {{#parameters}}
+        | {{&this}} |
+    {{/parameters}}
+{{/ifLength}}
+*request usage*
+```javascript
+// {{&summary}}
+let requestParams = {}
+{{#parameters}}
+    {{^isSingleton}}
+        requestParams.{{&camelCaseName}} = null // {{&description}} {{requireFilter required}}
+    {{/isSingleton}}
+{{/parameters}}
+let res = await api.{{&methodName}}(requestParams)
+if (res) {
+// TODO:
+}
+```
+*other usage*
+```javascript
+api.{{&methodName}}_TYPE()
+api.{{&methodName}}_RAW_URL()
+api.{{&methodName}}URL(requestParams)
+```

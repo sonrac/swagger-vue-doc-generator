@@ -1,0 +1,34 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc","closure"]
+  },
+  "title": "Swagger VUE generator documentation",
+  "opts": {
+    "title": "Swagger VUE generator documentation",
+    "recurse": true
+  },
+  "template": "node_modules/ink-docstrap/template",
+  "templates": {
+    "systemName"            : "Swagger VUE generator documentation",
+    "footer"                : "",
+    "copyright"             :  "Powered by @jsDOC. Author Donii Sergii <doniysa@gmail.com>",
+    "includeDate"           : true,
+    "navType"               : "inline",
+    "theme"                 : "lumen",
+    "linenums"              : true,
+    "collapseSymbols"       : true,
+    "outputSourceFiles"     : true,
+    "outputSourcePath"      : true,
+    "inverseNav"            : true,
+    "sort"					: true,
+    "search"                : true
+  },
+
+  "source": {
+    "include": [
+      "src/",
+      "README.MD"
+    ]
+  }
+}
