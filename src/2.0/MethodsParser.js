@@ -82,6 +82,7 @@ class MethodsParser extends ParserInterface {
 
       if (_.size(methodConfig.responses)) {
         _self.respParser = new ResponseParser(methodConfig.responses)
+        nextMethod.responses = _self.respParser.parse()
       }
 
       nextMethod = _self._addSecurityParameters(nextMethod)
@@ -106,7 +107,7 @@ class MethodsParser extends ParserInterface {
 
     if (_.size(headers)) {
       _.each(headers, (headConfig, index) => {
-        if (typeof headConfig === "undefined") {
+        if (typeof headConfig === 'undefined') {
           return
         }
         methodConfig.headers.push(headConfig)
@@ -115,12 +116,12 @@ class MethodsParser extends ParserInterface {
 
     if (_.size(parameters)) {
       _.each(parameters, (paramConfig, index) => {
-        if (typeof paramConfig === "undefined") {
+        if (typeof paramConfig === 'undefined') {
           return
         }
         methodConfig.parameters.push(paramConfig)
         if (paramConfig.in) {
-          if (typeof methodConfig.parameters[paramConfig.in + 'Params'] === "undefined") {
+          if (typeof methodConfig.parameters[paramConfig.in + 'Params'] === 'undefined') {
             throw new Error('Unsupported operand. Send issue please about error')
           }
           methodConfig.parameters[paramConfig.in + 'Params'].push(paramConfig)
@@ -133,6 +134,8 @@ class MethodsParser extends ParserInterface {
 
   /**
    * Parse methods data
+   *
+   * @return {Array.<MethodConfigObject>}
    */
   parse () {
     let _self = this

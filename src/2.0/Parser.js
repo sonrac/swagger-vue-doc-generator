@@ -124,7 +124,10 @@ class Parser extends ParserInterface {
    * @return {Swagger20}
    */
   parse () {
+    this.swagger.security = this.schemaParser.parse()
+    this.swagger.methods = this.methodsParser.parse()
 
+    return this.swagger
   }
 }
 

@@ -1,5 +1,5 @@
-const _               = require('lodash'),
-      ParserInterface = require('./../ParserInterface'),
+const _                = require('lodash'),
+      ParserInterface  = require('./../ParserInterface'),
       ParametersParser = require('./ParametersParser')
 
 /**
@@ -34,7 +34,7 @@ class SecuritySchemesParser extends ParserInterface {
     let _self = this
     _.each(this.schemes, (config, name) => {
 
-      if (typeof config !== 'object' || (typeof config === "object" && typeof config.in === "undefined")) {
+      if (typeof config !== 'object' || (typeof config === 'object' && typeof config.in === 'undefined')) {
         return
       }
 
@@ -87,21 +87,20 @@ class SecuritySchemesParser extends ParserInterface {
    * @param {boolean} isHeader True if needed headers or false if need parameters
    * @return {Array<HeaderObject>|Array.<ParameterObject>}
    */
-  _getHeadersOrParams(security, isHeader) {
+  _getHeadersOrParams (security, isHeader) {
     let options = [],
-        _self = this
+        _self   = this
 
-
-    isHeader = isHeader ? true : typeof isHeader === "undefined"
+    isHeader = isHeader ? true : typeof isHeader === 'undefined'
 
     let optionName = isHeader ? 'headers' : 'parameters'
 
     if (!_.isObject(security)) {
-      return [];
+      return []
     }
 
     _.each(security, (config, name) => {
-      if (typeof _self[optionName][name] === "undefined") {
+      if (typeof _self[optionName][name] === 'undefined') {
         return
       }
 
@@ -123,6 +122,7 @@ class SecuritySchemesParser extends ParserInterface {
     return this._getHeadersOrParams(security)
   }
 }
+
 /**
  * @ignore module.exports
  * @ignore exports

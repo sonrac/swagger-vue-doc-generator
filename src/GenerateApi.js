@@ -20,24 +20,23 @@ class GenerateApi {
   constructor (filename, options) {
     this.filename = filename
 
-    this.options  = options || {}
-    this.outFile  = options.outFile || __dirname + '/../dist/'
-    this._content = this._checkFile()
-    this.data     = this._parseData()
+    this.options        = options || {}
+    this.outFile        = options.outFile || __dirname + '/../dist/'
+    this._content       = this._checkFile()
+    this.data           = this._parseData()
+    this.data.modelPath = options.modelPath || 'docs/models'
+    this.data.docPath   = options.docsPath || 'docs'
   }
 
   /**
    * Generate vue.js client
    */
   generate () {
-    console.log(this.data)
     let data = swagger({
       swagger   : this.data,
       moduleName: this.options.moduleName,
       className : this.options.className
     })
-
-    console.log(this.outFile, data)
 
     fs.writeFileSync(this.outFile, data)
   }
@@ -82,7 +81,6 @@ class GenerateApi {
         throw new Error('Error parse data from file')
       }
     }
-    console.log(data)
 
     return data
   }

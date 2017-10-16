@@ -1,6 +1,7 @@
 const ParametersParser     = require('./2.0/ParametersParser'),
       SecuritySchemaParser = require('./2.0/DefinitionsParser'),
       ParserInterface      = require('./ParserInterface')
+
 /**
  * @ignore module.exports
  * @ignore exports

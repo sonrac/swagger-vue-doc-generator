@@ -361,4 +361,23 @@
  * @property {String} moduleName Module name
  * @property {String} className Class name
  * @property {String|undefined} outFile Destination swagger api object
+ * @property {String} docsPath Documentation path
+ * @property {String} modelPath Path for models definitions
+ * @property {Object.<Object>} additionalLayouts Additional layouts for Handlebars in format <code><file-name-or-relative-path>: <template-name></code>
+ * @property {Object.<Object>} additionalHelpers Additional helpers for Handlebars in format <code><helper-name>: function (templateName, Handlebars) {
+ *  // Some helper detail
+ * }</code>
+ */
+
+/**
+ * @typedef {Object} AdditionalLayoutsObject
+ * @param
+ */
+
+/**
+ * @typedef {Object} DocGeneratorOptionsObject
+ *
+ * @property {String} type Output documentation type
+ * @property {String} templatePath Path to template
+ * @property {Function} generatorCallback Custom generator callback
  */

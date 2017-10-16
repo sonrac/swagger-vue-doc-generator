@@ -1,8 +1,7 @@
 const _               = require('lodash'),
       ParserInterface = require('../ParserInterface')
+
 /**
- * @ignore module.exports
- * @ignore exports
  * @ignore _
  */
 
@@ -92,9 +91,9 @@ class ParametersParser extends ParserInterface {
         this._currentParam.singleton   = this._currentOriginalParam.enum[0]
       } else {
         let _enum = {
-          name  : _.upperFirst(_.camelCase(this._currentOriginalParam.name)) + ' Enum',
+          name         : _.upperFirst(_.camelCase(this._currentOriginalParam.name)) + ' Enum',
           camelCaseName: _.camelCase(this._currentOriginalParam.name),
-          values: this._currentOriginalParam.enum,
+          values       : this._currentOriginalParam.enum,
         }
 
         if (this.addEnumDescription) {
@@ -161,4 +160,8 @@ class ParametersParser extends ParserInterface {
   }
 }
 
+/**
+ * @ignore module.exports
+ * @ignore exports
+ */
 module.exports = ParametersParser

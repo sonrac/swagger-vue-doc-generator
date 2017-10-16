@@ -1,4 +1,5 @@
-const GenerateApi    = require('../src/GenerateApi'),
+const SwaggerParser  = require('../src/SwaggerParser'),
+      DocGenerator   = require('../src/DocGenerator'),
       _              = require('lodash'),
       fs             = require('fs'),
       path           = require('path'),
@@ -41,12 +42,32 @@ parser.addArgument(
   }
 )
 
+parser.addArgument(
+  ['--doc-path'],
+  {
+    help        : 'Destination for methods descriptions',
+    required    : false,
+    defaultValue: 'docs',
+  }
+)
+
+parser.addArgument(
+  ['--model-path'],
+  {
+    help        : 'Destination for models description',
+    required    : false,
+    defaultValue: 'docs/models',
+  }
+)
+
 const args      = parser.parseArgs(),
       jsonFile  = fs.existsSync(args.source) ? args.source : path.join(process.cwd(), args.source),
-      generator = new GenerateApi(jsonFile, {
+      generator = new SwaggerParser(jsonFile, {
         outFile   : args.destination,
         moduleName: args.moduleName,
-        className : args.className
+        className : args.className,
+        modelPath : args.modelPath,
+        docPath   : args.docPath
       })
 
 generator.generate()

@@ -1,4 +1,4 @@
-const Parser20 = require('./2.0/Parser'),
+const Parser20        = require('./2.0/Parser'),
       ParserInterface = require('./ParserInterface')
 
 /**
@@ -14,6 +14,7 @@ const Parser20 = require('./2.0/Parser'),
  * @property {Parser} parser Swagger parse object
  */
 class SwaggerParser extends ParserInterface {
+
   /**
    * SwaggerParser constructor
    *
@@ -49,8 +50,17 @@ class SwaggerParser extends ParserInterface {
    *
    * @return {Swagger20}
    */
-  parse() {
+  parse () {
     return this.parser.parse()
+  }
+
+  /**
+   * Generate documentation
+   *
+   * @param {String} type
+   */
+  generateDoc (type) {
+
   }
 }
 
