@@ -253,9 +253,11 @@
  * @typedef {Object} ParserOptions
  * @property {String} getTagCommand Command for get tag list
  * @property {String} repoPath Path to repository with project
+ * @property {String|undefined} packageVersion Package version
  * @property {String} packageName Package name
  * @property {String} moduleName Module name
  * @property {String} className Class name
+ * @property {ParserOptions} methodsParserConfig Method parser config
  */
 
 // Package definitions
@@ -361,17 +363,11 @@
  * @property {String} moduleName Module name
  * @property {String} className Class name
  * @property {String|undefined} outFile Destination swagger api object
- * @property {String} docsPath Documentation path
- * @property {String} modelPath Path for models definitions
- * @property {Object.<Object>} additionalLayouts Additional layouts for Handlebars in format <code><file-name-or-relative-path>: <template-name></code>
- * @property {Object.<Object>} additionalHelpers Additional helpers for Handlebars in format <code><helper-name>: function (templateName, Handlebars) {
- *  // Some helper detail
- * }</code>
- */
-
-/**
- * @typedef {Object} AdditionalLayoutsObject
- * @param
+ * @property {String} moduleName Module name
+ * @property {String} className Class name
+ * @property {String} packageVersion Package version
+ * @property {String} docsPath Method definitions path
+ * @property {String} modelPath Model path
  */
 
 /**
@@ -380,4 +376,16 @@
  * @property {String} type Output documentation type
  * @property {String} templatePath Path to template
  * @property {Function} generatorCallback Custom generator callback
+ * @property {String} docsPath Documentation path
+ * @property {String} modelPath Path for models definitions
+ * @property {String} destination Docs destination
+ * @property {Object.<Object>} additionalLayouts Additional layouts for Handlebars in format <code><file-name-or-relative-path>: <template-name></code>
+ * @property {Object.<Object>} additionalHelpers Additional helpers for Handlebars in format <code><helper-name>: function (templateName, Handlebars) {
+ *  // Some helper detail
+ * }</code>
+ * @property {String} moduleName Module name
+ * @property {String} className Class name
+ * @property {String} packageVersion Package version
+ * @property {String} docsPath Method definitions path
+ * @property {String} modelPath Model path
  */

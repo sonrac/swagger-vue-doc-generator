@@ -1,7 +1,6 @@
-const _       = require('lodash'),
-      fs      = require('fs'),
-      swagger = require('swagger-vue'),
-      yaml    = require('yaml')
+const fs            = require('fs'),
+      swagger       = require('swagger-vue'),
+      BaseGenerator = require('./BaseGenerator')
 
 /**
  * @class GenerateApi
@@ -11,18 +10,21 @@ const _       = require('lodash'),
  * @property {GeneratorOptions} options Generator options
  * @property {Swagger20} data Swagger data
  */
-class GenerateApi {
+class GenerateApi extends BaseGenerator {
   /**
    *
    * @param {String} filename
    * @param {GeneratorOptions|undefined} options
    */
   constructor (filename, options) {
+    super()
+
     this.filename = filename
 
-    this.options        = options || {}
-    this.outFile        = options.outFile || __dirname + '/../dist/'
-    this._content       = this._checkFile()
+    this.options = options || {}
+    this.outFile = options.outFile || __dirname + '/../dist/'
+    this._checkFile()
+    this._content       = fs.readFileSync(this.filename)
     this.data           = this._parseData()
     this.data.modelPath = options.modelPath || 'docs/models'
     this.data.docPath   = options.docsPath || 'docs'
@@ -39,50 +41,6 @@ class GenerateApi {
     })
 
     fs.writeFileSync(this.outFile, data)
-  }
-
-  /**
-   * Check swagger file exists
-   *
-   * @param {boolean|undefined} checked
-   *
-   * @private
-   */
-  _checkFile (checked) {
-
-    if (fs.existsSync(this.filename)) {
-      return fs.readFileSync(this.filename).toString()
-    }
-
-    let filename = __dirname + this.filename
-    if (!fs.existsSync(this.filename) && (filename !== this.filename) && !checked) {
-      this.filename = filename
-      this._checkFile(true)
-    }
-
-    throw new Error('Swagger json or yml file does not exists')
-  }
-
-  /**
-   * Parse data from file
-   *
-   * @return {Swagger20}
-   * @private
-   */
-  _parseData () {
-    let data = undefined
-    try {
-      data = JSON.parse(this._content)
-    } catch (e) {
-      console.log(e)
-      try {
-        data = yaml.tokenize(this._content)
-      } catch (e) {
-        throw new Error('Error parse data from file')
-      }
-    }
-
-    return data
   }
 }
 

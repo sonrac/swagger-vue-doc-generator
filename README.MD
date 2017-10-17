@@ -16,6 +16,7 @@ Use script `node_modules/swagger-vue-generator/bin/generate-api.js`
 | -------- | ----- | ----------- | ----- |
 | `-h` | `--help` | Show this help message and exit. | [optional] |
 | `-v` | `--version` | Show this help message and exit. | [optional] |
+| `-f` | `--flag-swagger` | Set swagger version (`2.0` or `openapi`). 2.0 only supported | [optional]. Default value is `2.0` |
 | `-s` | `--source` | Source swagger file destination. | required |
 | `-m` | `--moduleName` | Swagger generator module name. | required |
 | `-c` | `--className` | Swagger generator class name. | [optional]. Default value is API |
@@ -36,9 +37,10 @@ node ./node_modules/swagger-vue-generator/bin/generate-api.js -s /path/to/api-do
 | `-h` | `--help` | Show this help message and exit. | [optional] |
 | `-v` | `--version` | Show this help message and exit. | [optional] |
 | `-s` | `--source` | Source swagger file destination. | required |
+| `-f` | `--flag-swagger` | Set swagger version (`2.0` or `openapi`). 2.0 only supported | [optional]. Default value is `2.0` |
 | `-m` | `--moduleName` | Swagger generator module name. | required |
 | `-c` | `--className` | Swagger generator class name. | [optional]. Default value is API |
-| `-t` | `--template` | Template dir. | [optional]. Default value is `./node_modules/swagger-vue-generator/src/2.0/tmpl` |
+| `-t` | `--template` | Template dir. | [optional]. Default value is `./node_modules/swagger-vue-generator/src/2.0/templates/markdown` |
 | `-d` | `--destination` | Destination for output generate client. | required |
 
 ### Custom templates

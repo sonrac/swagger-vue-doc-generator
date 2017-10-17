@@ -1,6 +1,7 @@
 const SecuritySchemaParser = require('./SecuritySchemesParser'),
       ParserInterface      = require('../ParserInterface'),
       spawn                = require('child_process'),
+      _                    = require('lodash'),
       MethodsParser        = require('./MethodsParser')
 
 /**
@@ -13,8 +14,15 @@ const SecuritySchemaParser = require('./SecuritySchemesParser'),
  * @class Parser
  * Parser for swagger
  *
- * @typedef {Object} Parser
- * @typedef {Swagger20} swagger
+ * @property {Swagger20} data Swagger data
+ * @property {String|undefined} packageVersion Package version. If define command for get tags list not will be running
+ * @property {String} getTagCommand Command for get tag lists. If <code>packageVersion</code> is empty
+ * auto detect tag list and get last tag for detect package version
+ * @property {String} packageName Package name
+ * @property {String} className Class name
+ * @property {String} moduleName Module name
+ * @property {SecuritySchemaParser} schemeParser Security scheme parser
+ * @property {MethodsParser} methodsParser Methods parser
  */
 class Parser extends ParserInterface {
 
@@ -27,17 +35,29 @@ class Parser extends ParserInterface {
   constructor (data, options) {
     super()
 
+    options = options || {}
+
     if (data.swagger !== '2.0') {
       throw new Error('Unsupported swagger version by parser')
     }
 
-    this.data           = data
-    this.packageVersion = null
-    this.getTagCommand  = optoins.getTagCommand || 'git tag -l'
-    this.repoPath       = options.repo || __dirname
-    this.packageName    = options.packageName || 'test-api'
-    this.schemaParser   = new SecuritySchemaParser(this.data.definitions)
-    this.methodsParser  = new MethodsParser(this.data.paths)
+    this.data                   = data
+    this.packageVersion         = options.packageVersion
+    this.getTagCommand          = options.getTagCommand || 'git tag -l'
+    this.repoPath               = options.repo || __dirname
+    this.packageName            = options.packageName || 'test-api'
+    this.schemaParser           = new SecuritySchemaParser(this.data.definitions)
+    this.className              = options.className
+    this.moduleName             = options.moduleName
+    options.methodsParserConfig = options.methodsParserConfig || {
+      parameterParserConfig: {
+        addEnumDescription: true
+      },
+      className            : this.className,
+      moduleName           : this.moduleName,
+      packageName          : this.packageName
+    }
+    this.methodsParser          = new MethodsParser(this.data.paths, this.schemaParser, options.methodsParserConfig)
 
     this._initData(options)
     this._prepareDefinitions()
@@ -89,8 +109,8 @@ class Parser extends ParserInterface {
    * @private
    */
   _prepareDefinitions () {
-    this.genData.definitions      = this.data.definitions
-    this.genData.definitionsGroup = []
+    this.swagger.definitions      = this.data.definitions
+    this.swagger.definitionsGroup = []
 
     let _self = this
 
@@ -111,7 +131,7 @@ class Parser extends ParserInterface {
       return
     }
 
-    if (typeof this.genData.definitionsGroup[group] === 'undefined') {
+    if (typeof this.swagger.definitionsGroup[group] === 'undefined') {
       this.swagger.definitionsGroup[group] = []
     }
 
@@ -124,8 +144,9 @@ class Parser extends ParserInterface {
    * @return {Swagger20}
    */
   parse () {
-    this.swagger.security = this.schemaParser.parse()
-    this.swagger.methods = this.methodsParser.parse()
+    this.swagger.security  = this.schemaParser.parse()
+    this.swagger.methods   = this.methodsParser.parse()
+    this.swagger.tagsGroup = this.methodsParser.methodsGroup
 
     return this.swagger
   }

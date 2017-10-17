@@ -17,6 +17,10 @@ const ParserInterface  = require('../ParserInterface'),
  * @property {SecuritySchemesParser} securityParser Security parser
  * @property {ParameterParserOptionsObject} parameterParserConfig Parameters parser config object
  * @property {Array.<MethodConfigObject>} parseMethods Parsed methods
+ * @property {Array.<String>.<MethodConfigObject>} methodsGroup Grouping parsed methods
+ * @property {String} packageName Package name
+ * @property {String} className Class name
+ * @property {String} moduleName Module name
  */
 class MethodsParser extends ParserInterface {
   constructor (methods, securityParser, options) {
@@ -27,9 +31,14 @@ class MethodsParser extends ParserInterface {
     this.parameterParserConfig = options.parameterParserConfig
     // this.respParserConfig = options.respParserConfig
 
+    this.moduleName  = options.moduleName
+    this.className   = options.className
+    this.packageName = options.packageName
+
     this.securityParser = securityParser
     this.parseMethods   = []
     this.methods        = methods
+    this.methodsGroup   = {}
   }
 
   _iterateMethod (config, uri) {
@@ -40,6 +49,7 @@ class MethodsParser extends ParserInterface {
       let nextMethod = {
         path          : uri,
         method        : method,
+        methodName    : methodConfig.operationId ? MethodsParser._normalizeMethodName(methodConfig.operationId) : MethodsParser._getPathToMethodName(config, method, uri),
         tags          : methodConfig.tags,
         summary       : methodConfig.summary,
         description   : methodConfig.description,
@@ -48,7 +58,7 @@ class MethodsParser extends ParserInterface {
         produces      : methodConfig.produces,
         consumes      : methodConfig.consumes,
         schemes       : methodConfig.schemes,
-        isDeprecated  : methodConfig.deprecated,
+        isDeprecated  : methodConfig.deprecated || false,
         security      : methodConfig.security,
         isSecure      : typeof methodConfig.security !== 'undefined',
         isGET         : method === 'GET',
@@ -81,15 +91,69 @@ class MethodsParser extends ParserInterface {
       }
 
       if (_.size(methodConfig.responses)) {
-        _self.respParser = new ResponseParser(methodConfig.responses)
+        _self.respParser     = new ResponseParser(methodConfig.responses)
         nextMethod.responses = _self.respParser.parse()
       }
 
-      nextMethod = _self._addSecurityParameters(nextMethod)
+      nextMethod             = _self._addSecurityParameters(nextMethod)
+      nextMethod.packageName = _self.packageName
+      nextMethod.className   = _self.className
+      nextMethod.moduleName  = _self.moduleName
+
+      if (nextMethod.tags) {
+        let tags = nextMethod.tags
+        for (let i = 0; i < tags.length; i++) {
+          if (typeof this.methodsGroup[tags[i]] === 'undefined') {
+            this.methodsGroup[tags[i]] = []
+          }
+
+          this.methodsGroup[tags[i]].push(nextMethod)
+        }
+      }
 
       _self.parseMethods.push(nextMethod)
 
     })
+  }
+
+  /**
+   * Normalize method name
+   *
+   * @return {string}
+   *
+   * @private
+   */
+  static _normalizeMethodName (id) {
+    /* eslint-disable */
+    return id.replace(/\.|\-|\{|\}/g, '_').split(" ").join("_")
+    /* eslint-enable */
+  }
+
+  /**
+   *
+   * @param {Object} opts
+   * @param m
+   * @param path
+   * @return {*}
+   * @private
+   */
+  static _getPathToMethodName (opts, m, path) {
+    if (path === '/' || path === '') {
+      return m
+    }
+
+    // clean url path for requests ending with '/'
+    let cleanPath = path.replace(/\/$/, '')
+
+    let segments = cleanPath.split('/').slice(1)
+    segments     = _.transform(segments, function (result, segment) {
+      if (segment[0] === '{' && segment[segment.length - 1] === '}') {
+        segment = 'by' + segment[1].toUpperCase() + segment.substring(2, segment.length - 1)
+      }
+      result.push(segment)
+    })
+    let result   = _.camelCase(segments.join('-'))
+    return m.toLowerCase() + result[0].toUpperCase() + result.substring(1)
   }
 
   /**

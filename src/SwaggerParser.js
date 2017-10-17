@@ -25,7 +25,7 @@ class SwaggerParser extends ParserInterface {
   constructor (type, data, parserOptions) {
     super()
 
-    this.type   = type
+    this.type   = type || '2.0'
     this.data   = data
     this.parser = this._getParser(parserOptions)
   }

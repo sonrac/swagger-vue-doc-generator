@@ -1,7 +1,6 @@
-const _                     = require('lodash'),
-      chai                  = require('chai'),
-      MethodsParser         = require('../../src/2.0/MethodsParser'),
-      SecuritySchemesParser = require('../../src/2.0/SecuritySchemesParser'),
+const chai                  = require("chai"),
+      MethodsParser         = require("../../src/2.0/MethodsParser"),
+      SecuritySchemesParser = require("../../src/2.0/SecuritySchemesParser"),
       testData              = {
         empty: {
           '\/user\/auth\/facebook': {
@@ -18,23 +17,27 @@ const _                     = require('lodash'),
           }
         },
         parameters: {
-          "tags": [
-            "User auth"
-          ],
-          "summary": "Register & login user from facebook",
-          "description": "Register & login user from facebook",
-          "produces": [
-            "application\/json"
-          ],
-          "parameters": [
-            {
-              "name": "test",
-              "in": "query",
-              "description": "Test Parameter",
-              "type": "string",
-              "default": "test"
+          '\/user\/auth\/facebook': {
+            'post': {
+              "tags"       : [
+                "User auth"
+              ],
+              "summary"    : "Register & login user from facebook",
+              "description": "Register & login user from facebook",
+              "produces"   : [
+                "application\/json"
+              ],
+              "parameters" : [
+                {
+                  "name"       : "test",
+                  "in"         : "query",
+                  "description": "Test Parameter",
+                  "type"       : "string",
+                  "default"    : "test"
+                }
+              ],
             }
-          ],
+          }
         }
       }
 
@@ -53,7 +56,7 @@ describe('Test methods parser', () => {
     data[0].method.should.be.equal('POST')
     data[0].isPOST.should.be.true
     data[0].isGET.should.be.false
-    data[0].isDeprected.should.be.false
+    data[0].isDeprecated.should.be.false
     data[0].summary.should.be.equal('Register & login user from facebook')
   })
 
@@ -69,7 +72,7 @@ describe('Test methods parser', () => {
     data[0].method.should.be.equal('POST')
     data[0].isPOST.should.be.true
     data[0].isGET.should.be.false
-    data[0].isDeprected.should.be.false
+    data[0].isDeprecated.should.be.false
     data[0].summary.should.be.equal('Register & login user from facebook')
     data[0].parameters.should.be.a('array')
     data[0].parameters.should.length(1)

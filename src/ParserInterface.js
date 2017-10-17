@@ -4,6 +4,7 @@
  */
 
 /**
+ * @interface ParserInterface
  * Parser interface
  * Declare parse method must be defined in class
  */

@@ -1,0 +1,16 @@
+* Type: {{&type}}
+{{#ifDefine this "name"}}
+* API key parameter name: {{&name}}
+{{/ifDefine}}
+{{#ifDefine this "flow"}}
+* Flow: {{&flow}}
+{{/ifDefine}}
+{{#ifDefine this "in"}}
+* Location: {{#ifCond in "header"}}Header{{/ifCond}}{{#ifCond in "query"}}URL query string{{/ifCond}}{{#ifCond in "path"}}URL path param{{/ifCond}}
+{{/ifDefine}}
+{{#ifDefine this "tokenUrl"}}
+* Token URL: {{&tokenUrl}}
+{{/ifDefine}}
+{{#ifDefine this "authorizationUrl"}}
+* Authorization URL: {{&authorizationUrl}}
+{{/ifDefine}}

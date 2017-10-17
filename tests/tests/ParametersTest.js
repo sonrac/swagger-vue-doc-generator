@@ -1,5 +1,5 @@
-const ParametersParser = require('../../src/2.0/ParametersParser'),
-      chai             = require('chai'),
+const ParametersParser = require("../../src/2.0/ParametersParser"),
+      chai             = require("chai"),
       testData = {
         first: [
             {
@@ -32,7 +32,7 @@ const ParametersParser = require('../../src/2.0/ParametersParser'),
               }
           ]
       },
-      _                = require('lodash');
+      _                = require("lodash");
 
 chai.should()
 

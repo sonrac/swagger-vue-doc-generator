@@ -1,5 +1,5 @@
-const chai = require('chai'),
-      _ = require('lodash'),
+const chai = require("chai"),
+      _ = require("lodash"),
       SecuritySchemesParser = require('../../src/2.0/SecuritySchemesParser'),
       testingData = {
         params: {

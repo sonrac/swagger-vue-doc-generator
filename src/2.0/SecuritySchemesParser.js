@@ -23,6 +23,8 @@ class SecuritySchemesParser extends ParserInterface {
     this.schemes    = schemes
     this.headers    = {}
     this.parameters = {}
+
+    this._parseParameters()
   }
 
   /**
