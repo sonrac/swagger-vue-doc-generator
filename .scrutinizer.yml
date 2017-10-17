@@ -16,9 +16,9 @@ build:
                     file: 'coverage/clover.xml'
                     format: 'clover'
 checks:
-    javascript: true
+    php: true
 coding_style:
-    javascript:
+    php:
         spaces:
             around_operators:
                 concatenation: true
