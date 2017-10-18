@@ -42,11 +42,25 @@ node ./node_modules/swagger-vue-generator/bin/generate-api.js -s /path/to/api-do
 | `-c` | `--className` | Swagger generator class name. | [optional]. Default value is API |
 | `-t` | `--template` | Template dir. | [optional]. Default value is `./node_modules/swagger-vue-generator/src/2.0/templates/markdown` |
 | `-d` | `--destination` | Destination for output generate client. | required |
+|  | `--model-path` | Destination for models. | [optional] |
+|  | `--doc-path` | Destination for methods. | [optional] |
 
 ### Custom templates
 
+Change template path with option `-t` or `--template`.
+Copy origin template from `./node_modules/swagger-vue-generator/src/2.0/templates/markdown` and change it
 
 ### Example usages
+
+#### Generate doc
+```
+node ./node_modules/swagger-vue-generator/bin/generate-doc.js -s ../path/to/api-docs.json -d /path/to/destination -m module-name --model-path=models --doc-path=methods
+```
+
+#### Generate api
+```
+node ./node_modules/swagger-vue-generator/bin/generate-doc.js -s ../path/to/api-docs.json -d /path/to/destination -m module-name --model-path=models --doc-path=methods
+```
 
 ## Run tests
 
