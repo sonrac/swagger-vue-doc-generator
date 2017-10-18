@@ -2,6 +2,7 @@ const _             = require('lodash'),
       fs            = require('fs'),
       Handlebars    = require('handlebars'),
       HTML          = 'HTML',
+      path          = require('path'),
       BaseGenerator = require('./BaseGenerator'),
       SwaggerParser = require('./SwaggerParser'),
       Markdown      = 'Markdown'
@@ -76,6 +77,8 @@ class DocGenerator extends BaseGenerator {
     this.swaggerData.moduleName = this.moduleName
     this.swaggerData.className  = this.className
 
+    // fs.writeFileSync(path.join(process.cwd(), 'api-data.json'), JSON.stringify(this.swaggerData))
+
     if (!_.size(this.data)) {
       throw new Error('Swagger data is empty')
     }
@@ -110,6 +113,9 @@ class DocGenerator extends BaseGenerator {
     this._prepareHandlebars()
 
     this._generateMain()
+
+    this._generateMethods()
+    this._generateModels()
   }
 
   _generateMain () {
@@ -117,25 +123,42 @@ class DocGenerator extends BaseGenerator {
         content  = Handlebars.compile(template)(this.swaggerData)
 
     this._writeContent(content, this._getMainFileName())
-
-    this._generateMethods()
-    this._generateModels()
   }
 
   _getMainFileName () {
     return this.type === DocGenerator.HTML ? 'index.html' : 'README.MD'
   }
 
+  _getExt () {
+    return this.type === DocGenerator.HTML ? 'html' : 'md'
+  }
+
   _writeContent (content, fileName) {
-    fs.writeFileSync((this.destination + '/' + fileName).replace(/\/\//g, '/'), content)
+    fs.writeFileSync(path.join(this.destination, fileName), content)
   }
 
   _generateModels () {
+    let _self = this,
+        template = fs.readFileSync(path.join(this.templatePath, 'model.hbs')).toString(),
+        content = ''
 
+    _.each(this.swaggerData.definitions, (config, name) => {
+      config.modelName = name
+      content = Handlebars.compile(template)(config)
+      _self._writeContent(content, path.join(this.modelPath, name + '.' + _self._getExt()))
+    })
   }
 
   _generateMethods () {
-
+    let template = fs.readFileSync(path.join(this.templatePath, 'method.hbs')).toString(),
+        responseTemplate = fs.readFileSync(path.join(this.templatePath, 'response.hbs')).toString(),
+        content  = '',
+        _self    = this
+    Handlebars.registerPartial('response', responseTemplate)
+    _.each(this.swaggerData.methods, (config, index) => {
+      content = Handlebars.compile(template)(config)
+      _self._writeContent(content, path.join(_self.docsPath, config.methodName + '.' + _self._getExt()))
+    })
   }
 
   _prepareHandlebars () {
@@ -190,6 +213,16 @@ class DocGenerator extends BaseGenerator {
           return options.fn(this)
         }
       }
+    })
+
+    Handlebars.registerHelper('breaklines', function(text) {
+      text = Handlebars.Utils.escapeExpression(text);
+      text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+      return new Handlebars.SafeString(text);
+    });
+
+    Handlebars.registerHelper('requireFilter', function (require) {
+      return require ? 'required' : 'optional'
     })
 
     Handlebars.registerHelper('ifDefine', function (object, paramName, options) {

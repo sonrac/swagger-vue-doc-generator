@@ -23,7 +23,7 @@ const ParserInterface  = require('../ParserInterface'),
  * @property {String} moduleName Module name
  */
 class MethodsParser extends ParserInterface {
-  constructor (methods, securityParser, options) {
+  constructor (methods, securityParser, definitions, options) {
     super()
 
     options = options || {}
@@ -37,7 +37,10 @@ class MethodsParser extends ParserInterface {
 
     this.securityParser = securityParser
     this.parseMethods   = []
+    this.definitions    = definitions
     this.methods        = methods
+    this.modelPath      = options.modelPath
+    this.docsPath       = options.docsPath
     this.methodsGroup   = {}
   }
 
@@ -99,6 +102,9 @@ class MethodsParser extends ParserInterface {
       nextMethod.packageName = _self.packageName
       nextMethod.className   = _self.className
       nextMethod.moduleName  = _self.moduleName
+      nextMethod.docsPath    = _self.docsPath
+      nextMethod.modelPath   = _self.modelPath
+      nextMethod.definitions = _self.definitions
 
       if (nextMethod.tags) {
         let tags = nextMethod.tags
@@ -125,7 +131,7 @@ class MethodsParser extends ParserInterface {
    */
   static _normalizeMethodName (id) {
     /* eslint-disable */
-    return id.replace(/\.|\-|\{|\}/g, '_').split(" ").join("_")
+    return id.replace(/\.|\-|\{|\}/g, '_').split(' ').join('_')
     /* eslint-enable */
   }
 

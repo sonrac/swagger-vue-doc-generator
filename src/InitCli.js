@@ -197,7 +197,7 @@ class InitCli {
           outFile    : jsonFile,
           moduleName : this.arguments.moduleName,
           modelPath  : this.arguments.model_path,
-          docsPath   : this.arguments.docs_path,
+          docsPath   : this.arguments.doc_path,
           className  : this.arguments.className,
           packageName: this.arguments.package_name,
           packageVersion: this.arguments.package_version,

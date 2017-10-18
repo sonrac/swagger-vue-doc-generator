@@ -1,0 +1,27 @@
+### {{&description}}
+
+#### Status Code
+{{@key}}
+
+#### Response Headers
+| Name | Type | Default value | Description |
+| ---- | ---- | ------------- | ----------- |
+{{#each headers}}
+| {{@key}} | {{&type}} | {{&default}} | {{&description}} |
+{{/each}}
+
+#### Response object
+{{#each schema}}
+{{#ifDefine properties}}
+| Name | Type | Format | Example | Description |
+| ---- | ---- | ------ | ------- | ----------- |
+{{#each properties}}
+| {{@key}} | {{&type}} | {{#if format}} {{&format}} {{else}} - {{/if}} | {{breaklines example}} | {{breaklines description}} |
+{{/each}}
+{{else}}
+{{#ifDefine ref}}
+* [{{&ref}}]({{../../modelPath}}/{{&ref}})
+{{/ifDefine}}
+{{/ifDefine}}
+
+{{/each}}

@@ -258,6 +258,8 @@
  * @property {String} moduleName Module name
  * @property {String} className Class name
  * @property {ParserOptions} methodsParserConfig Method parser config
+ * @property {String} modelPath Model path
+ * @property {String} docsPath Methods path
  */
 
 // Package definitions

@@ -1,0 +1,11 @@
+# {{&modelName}}
+
+{{&title}}
+
+{{&description}}
+
+| Name | Type | Format | Example | Description |
+| ---- | ---- | ------ | ------- | ----------- |
+{{#each properties}}
+| {{@key}} | {{&type}} | {{#if format}} {{&format}} {{else}} - {{/if}} | {{breaklines example}} | {{breaklines description}} |
+{{/each}}

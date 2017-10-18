@@ -23,6 +23,8 @@ const SecuritySchemaParser = require('./SecuritySchemesParser'),
  * @property {String} moduleName Module name
  * @property {SecuritySchemaParser} schemeParser Security scheme parser
  * @property {MethodsParser} methodsParser Methods parser
+ * @property {String} modelPath Model path
+ * @property {String} docsPath Methods path
  */
 class Parser extends ParserInterface {
 
@@ -46,18 +48,22 @@ class Parser extends ParserInterface {
     this.getTagCommand          = options.getTagCommand || 'git tag -l'
     this.repoPath               = options.repo || __dirname
     this.packageName            = options.packageName || 'test-api'
-    this.schemaParser           = new SecuritySchemaParser(this.data.definitions)
+    this.schemaParser           = new SecuritySchemaParser(this.data.securityDefinitions)
     this.className              = options.className
     this.moduleName             = options.moduleName
+    this.modelPath              = options.modelPath
+    this.docsPath               = options.docsPath
     options.methodsParserConfig = options.methodsParserConfig || {
       parameterParserConfig: {
         addEnumDescription: true
       },
       className            : this.className,
       moduleName           : this.moduleName,
-      packageName          : this.packageName
+      packageName          : this.packageName,
+      modelPath            : this.modelPath,
+      docsPath             : this.docsPath
     }
-    this.methodsParser          = new MethodsParser(this.data.paths, this.schemaParser, options.methodsParserConfig)
+    this.methodsParser          = new MethodsParser(this.data.paths, this.schemaParser, data.definitions, options.methodsParserConfig)
 
     this._initData(options)
     this._prepareDefinitions()
@@ -147,6 +153,8 @@ class Parser extends ParserInterface {
     this.swagger.security  = this.schemaParser.parse()
     this.swagger.methods   = this.methodsParser.parse()
     this.swagger.tagsGroup = this.methodsParser.methodsGroup
+    this.swagger.modelPath = this.modelPath
+    this.swagger.docsPath  = this.docsPath
 
     return this.swagger
   }

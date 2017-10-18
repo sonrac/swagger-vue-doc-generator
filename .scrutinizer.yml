@@ -11,7 +11,7 @@ build:
     tests:
         override:
             -
-                command: 'istanbul cover _mocha --report clover test.js'
+                command: 'node ./node_modules/istanbul/lib/cli.js cover _mocha --report clover tests/tests/*Test.js'
                 coverage:
                     file: 'coverage/clover.xml'
                     format: 'clover'

@@ -87,19 +87,20 @@ if (res) {
 
 ## {{@key}} Requests
 | Class | Method | Http Request | Description |
-| ----- | ------ | ---- | ----------- |
+| ----- | ------ | ------------ | ----------- |
 {{#this}}
 {{> methodList }}
 {{/this}}
 {{/each}}
 
 {{#each definitions}}
-## {{@key}} Model
+## [{{@key}} Model]({{../modelPath}}/{{@key}}.md)
+{{&title}}
 {{/each}}
 
 ## Documentation for authorization
 
-{{#each securityDefinitions}}
+{{#each security}}
 ### {{@key}}
 {{> securityDefinitions}}
 {{/each}}
