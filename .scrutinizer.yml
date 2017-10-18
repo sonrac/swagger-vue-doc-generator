@@ -4,6 +4,8 @@ filter:
     excluded_paths:
         - tests/*
         - node_modules/*
+        - template/*
+        - src/2.0/templates/*
 build:
     dependencies:
         before:

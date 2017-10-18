@@ -1,3 +1,7 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sonrac/swagger-vue-doc-generator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sonrac/swagger-vue-doc-generator/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/sonrac/swagger-vue-doc-generator/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sonrac/swagger-vue-doc-generator/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/sonrac/swagger-vue-doc-generator/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sonrac/swagger-vue-doc-generator/build-status/master)
+
 # Swagger vue documentation & api front generator
 
 ## Install

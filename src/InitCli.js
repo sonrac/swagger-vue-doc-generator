@@ -192,7 +192,6 @@ class InitCli {
     this.parse()
 
     let jsonFile   = this._getJsonFile(),
-        _outFormat = this._getDocOutFormat(),
         docs       = new DocGenerator(this._getDocOutFormat(), {
           outFile    : jsonFile,
           moduleName : this.arguments.moduleName,

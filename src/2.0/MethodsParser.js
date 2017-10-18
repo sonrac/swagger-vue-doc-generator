@@ -45,8 +45,7 @@ class MethodsParser extends ParserInterface {
   }
 
   _iterateMethod (config, uri) {
-    let _self   = this,
-        methods = []
+    let _self   = this
     _.each(config, (methodConfig, method) => {
       method         = _.upperCase(method)
       let nextMethod = {
@@ -176,7 +175,7 @@ class MethodsParser extends ParserInterface {
         parameters = this.securityParser.getParametersForRequest(methodConfig.security)
 
     if (_.size(headers)) {
-      _.each(headers, (headConfig, index) => {
+      _.each(headers, (headConfig) => {
         if (typeof headConfig === 'undefined') {
           return
         }

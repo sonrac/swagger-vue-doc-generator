@@ -133,7 +133,7 @@ class ParametersParser extends ParserInterface {
    */
   parse () {
     let _self = this
-    _.each(this.originParameter, (parameter, name) => {
+    _.each(this.originParameter, (parameter) => {
       _self._currentOriginalParam = parameter || {}
       _self._currentParam         = parameter
 

@@ -1,6 +1,5 @@
 const _                = require('lodash'),
-      ParserInterface  = require('./../ParserInterface'),
-      ParametersParser = require('./ParametersParser')
+      ParserInterface  = require('./../ParserInterface')
 
 /**
  * @class SecuritySchemesParser
@@ -106,7 +105,7 @@ class SecuritySchemesParser extends ParserInterface {
         return
       }
 
-      _.each(_self[optionName][name], function (config, name) {
+      _.each(_self[optionName][name], function (config) {
         options.push(config)
       })
     })

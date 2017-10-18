@@ -44,8 +44,7 @@ class DocGenerator extends BaseGenerator {
     this.type              = type
     this.version           = version
     this.generatorCallback = options.generatorCallback
-    this.templatePath      = (options.templatePath || (__dirname + '/' + this.version +
-      '/templates/' + this.type.toLowerCase() + '/')).replace(/\/\//g, '/')
+    this.templatePath      = options.templatePath || (path.join(__dirname, this.version, 'templates', this.type.toLowerCase()))
     this.data              = options.swagger
     this.additionalLayouts = options.additionalLayouts || {}
     this.parserOptions     = options.parserOptions
@@ -212,6 +211,8 @@ class DocGenerator extends BaseGenerator {
         if (has) {
           return options.fn(this)
         }
+
+        return options.inverse(this)
       }
     })
 

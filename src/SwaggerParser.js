@@ -53,15 +53,6 @@ class SwaggerParser extends ParserInterface {
   parse () {
     return this.parser.parse()
   }
-
-  /**
-   * Generate documentation
-   *
-   * @param {String} type
-   */
-  generateDoc (type) {
-
-  }
 }
 
 /**
