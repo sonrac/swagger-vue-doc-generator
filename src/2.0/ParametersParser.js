@@ -86,7 +86,7 @@ class ParametersParser extends ParserInterface {
    */
   _parseEnum () {
     if (this._currentOriginalParam.enum) {
-      if (this._currentOriginalParam.length === 1) {
+      if (this._currentOriginalParam.enum.length === 1) {
         this._currentParam.isSingleton = true
         this._currentParam.singleton   = this._currentOriginalParam.enum[0]
       } else {

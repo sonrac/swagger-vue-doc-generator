@@ -9,3 +9,17 @@
 {{#each properties}}
 | {{@key}} | {{&type}} | {{#if format}} {{&format}} {{else}} - {{/if}} | {{breaklines example}} | {{breaklines description}} |
 {{/each}}
+
+{{#ifLength enums}}
+## Enums
+{{#each enums}}
+### {{&name}}
+
+{{&description}}
+
+Values:
+{{#each values}}
+* {{&this}}
+{{/each}}
+{{/each}}
+{{/ifLength}}

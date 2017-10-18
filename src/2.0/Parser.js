@@ -121,7 +121,23 @@ class Parser extends ParserInterface {
     let _self = this
 
     _.each(this.swagger.definitions, (definition, name) => {
+      _self.swagger.definitions[name].enums = [];
       _self._addDefinitionToGroup(name, definition)
+      if (definition.properties) {
+        _.each(definition.properties, (prop, attrName) => {
+          if (prop.enum) {
+            let _enum = {
+              name         : _.upperFirst(_.camelCase(attrName)) + ' Enum',
+              camelCaseName: _.camelCase(attrName),
+              values       : prop.enum,
+            }
+
+            _enum.description = prop.description
+
+            _self.swagger.definitions[name].enums.push(_enum)
+          }
+        })
+      }
     })
   }
 
@@ -151,7 +167,7 @@ class Parser extends ParserInterface {
    */
   parse () {
     this.swagger.security  = this.schemaParser.parse()
-    this.swagger.methods   = this.methodsParser.parse()
+    this.swagger.methods   = this.methodsParser.parse(this.swagger.definitions)
     this.swagger.tagsGroup = this.methodsParser.methodsGroup
     this.swagger.modelPath = this.modelPath
     this.swagger.docsPath  = this.docsPath

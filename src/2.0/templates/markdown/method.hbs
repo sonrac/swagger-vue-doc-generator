@@ -31,7 +31,7 @@
 | ---- | ---- | ------------- | -------- | ----------- |
 {{#if parameters.length}}
 {{#parameters}}
-{{#ifCond in "query"}}
+{{#ifCond in "path"}}
 | {{&name}} | {{&type}} | {{&default}} | {{#if required}} true {{else}} false {{/if}} | {{&description}} |
 {{/ifCond}}
 {{/parameters}}
@@ -96,6 +96,6 @@ api.{{&methodName}}URL(requestParams)
 ```
 
 ## Responses
-{{#each reponses}}
+{{#each responses}}
 {{> response}}
 {{/each}}

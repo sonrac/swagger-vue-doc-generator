@@ -44,8 +44,8 @@ class MethodsParser extends ParserInterface {
     this.methodsGroup   = {}
   }
 
-  _iterateMethod (config, uri) {
-    let _self   = this
+  _iterateMethod (config, uri, definitions) {
+    let _self = this
     _.each(config, (methodConfig, method) => {
       method         = _.upperCase(method)
       let nextMethod = {
@@ -72,6 +72,7 @@ class MethodsParser extends ParserInterface {
         isTRACE       : method === 'TRACE',
         isCONNECT     : method === 'CONNECT',
         isPATCH       : method === 'PATCH',
+        definitions   : this.definitions || {},
         headers       : [],
         parameters    : [],
         bodyParams    : [],
@@ -79,6 +80,8 @@ class MethodsParser extends ParserInterface {
         formDataParams: [],
         enums         : [],
         pathParams    : [],
+        modelPath     : _self.modelPath,
+        docsPath      : _self.docsPath
       }
 
       if (_.size(methodConfig.parameters)) {
@@ -93,7 +96,7 @@ class MethodsParser extends ParserInterface {
       }
 
       if (_.size(methodConfig.responses)) {
-        _self.respParser     = new ResponseParser(methodConfig.responses)
+        _self.respParser     = new ResponseParser(methodConfig.responses, this.modelPath)
         nextMethod.responses = _self.respParser.parse()
       }
 
@@ -170,8 +173,7 @@ class MethodsParser extends ParserInterface {
    * @private
    */
   _addSecurityParameters (methodConfig) {
-    let _self      = this,
-        headers    = this.securityParser.getHeadersForRequest(methodConfig.security),
+    let headers    = this.securityParser.getHeadersForRequest(methodConfig.security),
         parameters = this.securityParser.getParametersForRequest(methodConfig.security)
 
     if (_.size(headers)) {
@@ -204,13 +206,15 @@ class MethodsParser extends ParserInterface {
   /**
    * Parse methods data
    *
+   * @property {Array.<Swagger20OperationDefinition>} definitions
+   *
    * @return {Array.<MethodConfigObject>}
    */
-  parse () {
+  parse (definitions) {
     let _self = this
 
     _.each(this.methods, (config, uri) => {
-      _self._iterateMethod(config, uri)
+      _self._iterateMethod(config, uri, definitions)
     })
 
     return this.parseMethods

@@ -48,7 +48,7 @@ class DocGenerator extends BaseGenerator {
     this.data              = options.swagger
     this.additionalLayouts = options.additionalLayouts || {}
     this.parserOptions     = options.parserOptions
-    this.destination       = options.destination || __dirname + '/../dist'
+    this.destination       = options.destination || path.join(__dirname, '/../dist')
     this._checkFile(false, 'destination', 'Destination folder not found')
     this.additionalHelpers = options.additionalHelpers || {}
     this.filename          = options.outFile
@@ -118,7 +118,7 @@ class DocGenerator extends BaseGenerator {
   }
 
   _generateMain () {
-    let template = fs.readFileSync(this.templatePath + 'md.hbs').toString(),
+    let template = fs.readFileSync(path.join(this.templatePath, 'md.hbs')).toString(),
         content  = Handlebars.compile(template)(this.swaggerData)
 
     this._writeContent(content, this._getMainFileName())
@@ -186,7 +186,7 @@ class DocGenerator extends BaseGenerator {
         }
       }
     }
-    let fileContent = fs.readFileSync(this.templatePath + filename + '.hbs').toString()
+    let fileContent = fs.readFileSync(path.join(this.templatePath, filename + '.hbs')).toString()
 
     Handlebars.registerPartial(templateName, fileContent)
   }
