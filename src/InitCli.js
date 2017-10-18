@@ -83,7 +83,7 @@ class InitCli {
     this.addArgument(
       ['-n', '--package-name'],
       {
-        help: 'Package name',
+        help        : 'Package name',
         defaultValue: 'vue-swagger-api'
       }
     )
@@ -91,7 +91,7 @@ class InitCli {
     this.addArgument(
       ['--package-version'],
       {
-        help: 'Package version',
+        help        : 'Package version',
         defaultValue: '0.2'
       }
     )
@@ -191,16 +191,16 @@ class InitCli {
 
     this.parse()
 
-    let jsonFile   = this._getJsonFile(),
-        docs       = new DocGenerator(this._getDocOutFormat(), {
-          outFile    : jsonFile,
-          moduleName : this.arguments.moduleName,
-          modelPath  : this.arguments.model_path,
-          docsPath   : this.arguments.doc_path,
-          className  : this.arguments.className,
-          packageName: this.arguments.package_name,
+    let jsonFile = this._getJsonFile(),
+        docs     = new DocGenerator(this._getDocOutFormat(), {
+          inputJson     : jsonFile,
+          moduleName    : this.arguments.moduleName,
+          modelPath     : this.arguments.model_path,
+          docsPath      : this.arguments.doc_path,
+          className     : this.arguments.className,
+          packageName   : this.arguments.package_name,
           packageVersion: this.arguments.package_version,
-          destination: this.arguments.destination
+          destination   : this.arguments.destination
         }, this.arguments.flag_version)
 
     docs.generate()

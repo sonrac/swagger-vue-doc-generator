@@ -51,7 +51,7 @@ class DocGenerator extends BaseGenerator {
     this.destination       = options.destination || path.join(__dirname, '/../dist')
     this._checkFile(false, 'destination', 'Destination folder not found')
     this.additionalHelpers = options.additionalHelpers || {}
-    this.filename          = options.outFile
+    this.filename          = options.inputJson
     this.moduleName        = options.moduleName
     this.className         = options.className
     this.modelPath         = options.modelPath
