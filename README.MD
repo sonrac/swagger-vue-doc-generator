@@ -59,7 +59,7 @@ node ./node_modules/swagger-vue-generator/bin/generate-doc.js -s ../path/to/api-
 
 #### Generate api
 ```
-node ./node_modules/swagger-vue-generator/bin/generate-doc.js -s ../path/to/api-docs.json -d /path/to/destination -m module-name --model-path=models --doc-path=methods
+node ./node_modules/swagger-vue-generator/bin/generate-api.js -s ../path/to/api-docs.json -d /path/to/destination -m module-name
 ```
 
 ## Run tests
