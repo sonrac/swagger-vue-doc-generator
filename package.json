@@ -1,6 +1,6 @@
 {
   "name": "swagger-vue-generator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Generate api from spec & documentation for swagger-vue with templates (markdown or html)",
   "main": "index.js",
   "scripts": {
