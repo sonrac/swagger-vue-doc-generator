@@ -7,11 +7,12 @@ filter:
 build:
     dependencies:
         before:
+            - npm install
             - npm install istanbul   # or add it as part of your package.json
     tests:
         override:
             -
-                command: 'node ./node_modules/istanbul/lib/cli.js cover _mocha --report clover tests/tests/*Test.js'
+                command: 'node ./node_modules/istanbul/lib/cli.js cover _mocha --report clover ./tests/tests/*Test.js'
                 coverage:
                     file: 'coverage/clover.xml'
                     format: 'clover'
