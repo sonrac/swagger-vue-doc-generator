@@ -1,5 +1,7 @@
 const fs            = require('fs'),
       swagger       = require('swagger-vue'),
+      parse         = require('./../node_modules/swagger-vue/lib/parse'),
+      codegen       = require('./2.0/generator-api/generator'),
       BaseGenerator = require('./BaseGenerator')
 
 /**
@@ -11,37 +13,38 @@ const fs            = require('fs'),
  * @property {Swagger20} data Swagger data
  */
 class GenerateApi extends BaseGenerator {
-  /**
-   *
-   * @param {String} filename
-   * @param {GeneratorOptions|undefined} options
-   */
-  constructor (filename, options) {
-    super()
+    /**
+     *
+     * @param {String} filename
+     * @param {GeneratorOptions|undefined} options
+     */
+    constructor(filename, options) {
+        super()
 
-    this.filename = filename
+        this.filename = filename
 
-    this.options = options || {}
-    this.outFile = options.outFile || __dirname + '/../dist/'
-    this._checkFile()
-    this._content       = fs.readFileSync(this.filename)
-    this.data           = this._parseData()
-    this.data.modelPath = options.modelPath || 'docs/models'
-    this.data.docPath   = options.docsPath || 'docs'
-  }
+        this.options = options || {}
+        this.outFile = options.outFile || __dirname + '/../dist/'
+        this._checkFile()
+        this._content       = fs.readFileSync(this.filename)
+        this.data           = this._parseData()
+        this.data.modelPath = options.modelPath || 'docs/models'
+        this.data.docPath   = options.docsPath || 'docs'
+    }
 
-  /**
-   * Generate vue.js client
-   */
-  generate () {
-    let data = swagger({
-      swagger   : this.data,
-      moduleName: this.options.moduleName,
-      className : this.options.className
-    })
+    /**
+     * Generate vue.js client
+     */
+    generate() {
+        let data       = parse({
+            swagger   : this.data,
+            moduleName: this.options.moduleName,
+            className : this.options.className
+        })
+        let codeResult = codegen(data)
 
-    fs.writeFileSync(this.outFile, data)
-  }
+        fs.writeFileSync(this.outFile, codeResult)
+    }
 }
 
 /**
