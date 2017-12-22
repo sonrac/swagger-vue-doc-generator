@@ -1,6 +1,6 @@
 const fs            = require('fs'),
       swagger       = require('swagger-vue'),
-      parse         = require('./../node_modules/swagger-vue/lib/parse'),
+      parse         = require('./2.0/generator-api/parser'),
       codegen       = require('./2.0/generator-api/generator'),
       BaseGenerator = require('./BaseGenerator')
 
